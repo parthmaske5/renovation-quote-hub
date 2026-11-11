@@ -27,7 +27,7 @@ export function ProjectLightbox({
   return (
     <Dialog open={!!project} onOpenChange={(o) => !o && onOpenChange(null)}>
       <DialogContent
-        className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-4xl overflow-y-auto p-0 sm:rounded-lg"
+        className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-4xl overflow-y-auto p-0 sm:rounded-lg [&>button.absolute]:z-10 [&>button.absolute]:rounded-md [&>button.absolute]:bg-background [&>button.absolute]:p-2 [&>button.absolute]:opacity-100"
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") go(1);
           if (e.key === "ArrowLeft") go(-1);
