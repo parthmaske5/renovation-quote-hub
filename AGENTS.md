@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- All page copy and business details live in `src/content/*` (business info in `site.ts`, photos in `images.ts`); components only render it, so a Bahasa Malaysia/Chinese version can be added as parallel content files.
+- Text in `[square brackets]` is an owner placeholder and renders highlighted via `<Txt>`; never replace one with invented facts.
+- The only primary CTA is `QuoteButton` (label/route from `CTA` in `site.ts`); WhatsApp/phone stay secondary text links or icons.
+- Shop renovation has one landing page at `/shop-renovation`; `/services/shop-renovation` redirects there instead of rendering a detail page.
+- Quote requests are inserted only by the `submitQuoteRequest` server function; the `quote_requests` table has no browser access, photos go to the private `quote-photos` bucket under `uploads/`.
