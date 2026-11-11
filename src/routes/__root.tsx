@@ -12,6 +12,12 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Toaster } from "@/components/ui/sonner";
+import { MobileCtaBar } from "@/components/site/MobileCtaBar";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { BUSINESS } from "@/content/site";
+import { localBusinessJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -75,28 +81,31 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
-    // Replace these placeholders with the app's name and description when first building the app.
-    // Each content route, / included, must still set its own head(). Never add og:image or
-    // twitter:image here: every page without its own would inherit the root's preview image.
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#f8f6f2" },
+      { title: `${BUSINESS.name} — Home & Shop Renovation, Malaysia` },
+      {
+        name: "description",
+        content: "Home repairs, renovations and shop fit-outs by one skilled in-house team in Malaysia.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "en_MY" },
+      { property: "og:site_name", content: BUSINESS.name },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap",
       },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(localBusinessJsonLd) }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -106,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-MY">
       <head>
         <HeadContent />
       </head>
@@ -123,8 +132,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <SiteHeader />
+      <main id="main" className="min-h-[60vh] pb-20 md:pb-0">
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </main>
+      <SiteFooter />
+      <MobileCtaBar />
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }

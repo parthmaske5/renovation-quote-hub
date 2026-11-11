@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BadgeCheck, Clock, FileCheck2, Quote, ShieldCheck, UserRound } from "lucide-react";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { HOME } from "@/content/home";
 import { FEATURED_PROJECTS, type Project } from "@/content/projects";
 import { SERVICE_GROUPS } from "@/content/services";
@@ -278,7 +278,7 @@ export function PageIntro({
   eyebrow?: string;
   title: string;
   intro?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }) {
   return (
     <section className="border-b bg-secondary py-12 md:py-20">
