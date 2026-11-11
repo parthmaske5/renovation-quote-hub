@@ -22,7 +22,7 @@ const MAX_PHOTOS = 3;
 export function QuoteForm() {
   const [step, setStep] = useState(0);
   const [values, setValues] = useState<Values>(EMPTY);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({});
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -33,10 +33,10 @@ export function QuoteForm() {
   };
 
   const validate = (i: number) => {
-    const r = SCHEMAS[i].safeParse(values);
+    const r = SCHEMAS[i]!.safeParse(values);
     if (r.success) return true;
-    const next: Record<string, string> = {};
-    for (const issue of r.error.issues) next[String(issue.path[0])] ??= issue.message;
+    const next: Partial<Record<keyof Values, string>> = {};
+    for (const issue of r.error.issues) next[issue.path[0] as keyof Values] ??= issue.message;
     setErrors(next);
     const first = Object.keys(next)[0];
     document.getElementById(`q-${first}`)?.focus();
@@ -210,7 +210,7 @@ export function QuoteForm() {
   );
 }
 
-function Field({ id, label, hint, error, children }: { id: string; label: string; hint?: string; error?: string; children: React.ReactNode }) {
+function Field({ id, label, hint, error, children }: { id: string; label: string; hint?: string | undefined; error?: string | undefined; children: React.ReactNode }) {
   return (
     <div>
       <Label htmlFor={`q-${id}`} className="text-sm font-semibold">{label}</Label>
