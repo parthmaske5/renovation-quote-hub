@@ -10,9 +10,9 @@ export function WhatsAppLink({
   className,
   label = UI.whatsapp,
 }: {
-  message?: string;
-  className?: string;
-  label?: string;
+  message?: string | undefined;
+  className?: string | undefined;
+  label?: string | undefined;
 }) {
   return (
     <a

@@ -40,10 +40,10 @@ export function SectionHeading({
   className,
   as: As = "h2",
 }: {
-  id?: string;
-  eyebrow?: string;
+  id?: string | undefined;
+  eyebrow?: string | undefined;
   title: string;
-  intro?: string;
+  intro?: string | undefined;
   tone?: "default" | "ink";
   className?: string;
   as?: "h1" | "h2";

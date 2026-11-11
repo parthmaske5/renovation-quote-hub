@@ -8,7 +8,7 @@ export function normalizeMalaysianPhone(input: string): string | null {
   const compact = input.replace(/[\s\-().]/g, "");
   if (/^01\d{8,9}$/.test(compact)) return `+6${compact}`;
   const intl = compact.match(/^\+60(\d+)$/);
-  if (intl && /^(1\d{8,9}|[3-9]\d{7,8})$/.test(intl[1])) return compact;
+  if (intl?.[1] && /^(1\d{8,9}|[3-9]\d{7,8})$/.test(intl[1])) return compact;
   return null;
 }
 

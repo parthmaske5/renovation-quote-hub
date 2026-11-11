@@ -24,7 +24,7 @@ export function Reveal({
     setState("hidden");
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setState("shown");
           io.disconnect();
         }

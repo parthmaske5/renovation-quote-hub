@@ -21,7 +21,7 @@ export function ProjectLightbox({
   const go = (delta: number) => {
     if (index < 0) return;
     const next = projects[(index + delta + projects.length) % projects.length];
-    onOpenChange(next.id);
+    if (next) onOpenChange(next.id);
   };
 
   return (

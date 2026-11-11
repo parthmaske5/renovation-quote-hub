@@ -4,7 +4,7 @@ import { StepList } from "./StepList";
 
 export function ProcessTabs() {
   return (
-    <Tabs defaultValue={PROCESS_TABS[0].id} className="mt-10">
+    <Tabs defaultValue={PROCESS_TABS[0]!.id} className="mt-10">
       <TabsList className="grid h-auto w-full grid-cols-2 gap-1 rounded-lg bg-muted p-1 sm:inline-grid sm:w-auto">
         {PROCESS_TABS.map((t) => (
           <TabsTrigger
