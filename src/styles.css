@@ -243,6 +243,23 @@
   border: 1px dashed var(--color-input);
   animation: orbit-spin calc(var(--orbit-period) * 1.5) linear infinite reverse;
 }
+.orbit-spark {
+  position: absolute;
+  inset: 0;
+  animation: orbit-spin 6.5s linear infinite;
+}
+.orbit-spark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: -0.225rem;
+  margin-top: calc(var(--orbit-r) * -1);
+  border-radius: 9999px;
+  background: var(--color-primary);
+}
 .orbit-ring {
   position: absolute;
   inset: 0;
@@ -298,6 +315,15 @@
   font-weight: 800;
   letter-spacing: -0.01em;
 }
+.orbit-hub::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--color-primary);
+  animation: orbit-pulse 2.8s ease-out infinite;
+}
+@keyframes orbit-pulse { from { transform: scale(1); opacity: 0.4; } to { transform: scale(1.6); opacity: 0; } }
 @keyframes hero-rise { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes hero-scale-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }

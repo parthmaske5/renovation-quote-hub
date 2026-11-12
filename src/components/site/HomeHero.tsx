@@ -39,6 +39,7 @@ export function HomeHero() {
         <div aria-hidden="true" className="flex flex-col items-center gap-5 py-6">
           <div className="orbit">
             <span className="orbit-track" />
+            <span className="orbit-spark" />
             <div className="orbit-ring">
               {h.trades.map((t, i) => (
                 <span key={t} className="orbit-arm" style={{ "--a": `${i * step}deg` } as CSSProperties}>
