@@ -7,6 +7,7 @@ export const HOME = {
     headlineAnswer: "Call one team.",
     subline: "Electrical, plumbing, tiling, carpentry and more. One team, one point of contact, from quote to handover.",
     trades: ["Electrician", "Plumber", "Tiler", "Carpenter", "Painter"],
+    hubLabel: "One team",
     tradesNote: "[confirm in-house trades]",
     sellingPoints: [
       { icon: "ruler", title: "Jobs of every size", body: "One socket or a whole shop lot." },
