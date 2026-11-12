@@ -36,7 +36,7 @@ export function HomeHero() {
           </div>
         </div>
 
-        <div aria-hidden="true" className="flex flex-col items-center gap-5 py-6">
+        <div aria-hidden="true" className="flex flex-col items-center gap-3 py-2 lg:py-6">
           <div className="orbit">
             <span className="orbit-track" />
             <span className="orbit-spark" />
