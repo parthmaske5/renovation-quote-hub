@@ -198,14 +198,13 @@
   }
 }
 
-/* Home hero: pure-CSS one-shot animation (transform/opacity/clip-path only) */
+/* Home hero: pure-CSS animation — one-shot headline reveal + a looping "trades orbit" */
 .hero-anim {
   --hero-rise: 0.55s;
   --hero-strike-delay: 0.6s;
-  --hero-gather-delay: 0.7s;
-  --hero-gather: 0.7s;
   --hero-answer-delay: 1.3s;
   --hero-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --orbit-period: 30s;
 }
 .hero-wrap { container-type: inline-size; }
 .hero-title { font-size: clamp(2.5rem, min(8.5vw, 10.5cqi), 6.25rem); font-weight: 800; line-height: 0.98; letter-spacing: -0.03em; }
@@ -222,18 +221,89 @@
   content: ""; position: absolute; inset: 0.04em 0 0.02em; background: var(--primary); border-radius: 0.08em; z-index: -1;
   transform-origin: left; animation: hero-scale-x 0.5s var(--hero-ease) calc(var(--hero-answer-delay) + 0.1s) both;
 }
-.hero-pill {
-  animation: hero-gather var(--hero-gather) var(--hero-ease) var(--hero-gather-delay) both;
+/* Trades orbiting "One team" — continuous, transform/opacity only */
+.orbit {
+  --orbit-size: clamp(15rem, 34vw, 21rem);
+  --orbit-r: calc(var(--orbit-size) * 0.42);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
 }
-.hero-pill-in { display: inline-block; animation: hero-fade 0.4s ease-out var(--pd, 0s) both; }
-.hero-tick { animation: hero-pop 0.35s var(--hero-ease) calc(var(--hero-answer-delay) + 0.1s) both; }
-.hero-tick path { stroke-dasharray: 24; animation: hero-draw 0.4s ease-out calc(var(--hero-answer-delay) + 0.25s) both; }
+.orbit-track {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--orbit-r) * 2);
+  height: calc(var(--orbit-r) * 2);
+  margin-left: calc(var(--orbit-r) * -1);
+  margin-top: calc(var(--orbit-r) * -1);
+  border-radius: 9999px;
+  border: 1px dashed var(--color-input);
+  animation: orbit-spin calc(var(--orbit-period) * 1.5) linear infinite reverse;
+}
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  animation: orbit-spin var(--orbit-period) linear infinite;
+  will-change: transform;
+}
+.orbit-arm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--a)) translateY(calc(var(--orbit-r) * -1)) rotate(calc(var(--a) * -1));
+}
+.orbit-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+.orbit-pill {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  animation:
+    hero-fade 0.4s ease-out var(--pd, 0s) both,
+    orbit-upright var(--orbit-period) linear infinite;
+  will-change: transform;
+}
+.orbit-hub {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  gap: 0.1rem;
+  width: 40%;
+  aspect-ratio: 1;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  text-align: center;
+  animation: hero-pop 0.35s var(--hero-ease) calc(var(--hero-answer-delay) + 0.1s) both;
+}
+.orbit-hub span {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
 @keyframes hero-rise { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes hero-scale-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes hero-gather { from { transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg)); } to { transform: none; } }
 @keyframes hero-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
-@keyframes hero-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+@keyframes orbit-upright { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 @media (prefers-reduced-motion: reduce) {
   .hero-anim *, .hero-anim *::before, .hero-anim *::after { animation: none !important; }
 }
