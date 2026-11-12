@@ -207,7 +207,8 @@
   --hero-answer-delay: 1.3s;
   --hero-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
-.hero-title { font-size: clamp(2.5rem, 8.5vw, 6.25rem); font-weight: 800; line-height: 0.98; letter-spacing: -0.03em; }
+.hero-wrap { container-type: inline-size; }
+.hero-title { font-size: clamp(2.5rem, min(8.5vw, 10.5cqi), 6.25rem); font-weight: 800; line-height: 0.98; letter-spacing: -0.03em; }
 .hero-mask { display: block; overflow: hidden; padding-bottom: 0.08em; }
 .hero-line { display: block; animation: hero-rise var(--hero-rise) var(--hero-ease) both; animation-delay: var(--d, 0s); }
 .hero-strike { position: relative; white-space: nowrap; }
@@ -216,7 +217,7 @@
   background: var(--accent-ink); border-radius: 999px; transform-origin: left;
   animation: hero-scale-x 0.45s var(--hero-ease) var(--hero-strike-delay) both;
 }
-.hero-answer { position: relative; display: inline-block; padding: 0 0.18em; color: var(--primary-foreground); }
+.hero-answer { position: relative; display: inline-block; white-space: nowrap; padding: 0 0.18em; color: var(--primary-foreground); }
 .hero-answer::before {
   content: ""; position: absolute; inset: 0.04em 0 0.02em; background: var(--primary); border-radius: 0.08em; z-index: -1;
   transform-origin: left; animation: hero-scale-x 0.5s var(--hero-ease) calc(var(--hero-answer-delay) + 0.1s) both;

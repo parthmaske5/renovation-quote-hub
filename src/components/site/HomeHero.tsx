@@ -20,8 +20,8 @@ export function HomeHero() {
   const h = HOME.hero;
   return (
     <section aria-labelledby="hero-title" className="hero-anim border-b">
-      <div className="container-site grid items-center gap-10 pt-10 pb-12 md:pt-16 lg:grid-cols-[1.35fr_1fr] lg:gap-12 lg:pb-20">
-        <div className="min-w-0">
+      <div className="container-site grid items-center gap-10 pt-10 pb-12 md:pt-16 lg:grid-cols-[1.25fr_1fr] lg:gap-12 lg:pb-20">
+        <div className="hero-wrap min-w-0">
           <p className="eyebrow text-accent-ink">{h.eyebrow}</p>
           <h1 id="hero-title" className="hero-title isolate mt-4">
             <span className="hero-mask">
@@ -45,8 +45,8 @@ export function HomeHero() {
         </div>
 
         <div aria-hidden="true" className="flex flex-col items-center gap-4 py-6 lg:items-start">
-          <div className="flex items-center gap-3">
-            <ul className="flex flex-wrap justify-center gap-2 rounded-2xl border bg-card p-3 shadow-lg lg:justify-start">
+          <div className="relative">
+            <ul className="flex flex-wrap justify-center gap-2 rounded-2xl border bg-card p-3 shadow-lg lg:flex-nowrap">
               {h.trades.map((t, i) => {
                 const s = SCATTER[i % SCATTER.length]!;
                 return (
@@ -62,7 +62,7 @@ export function HomeHero() {
                 );
               })}
             </ul>
-            <span className="hero-tick grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
+            <span className="hero-tick absolute -top-4 -right-4 grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
               <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12.5l4.5 4.5L19 7.5" />
               </svg>
