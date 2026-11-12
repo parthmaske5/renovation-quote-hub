@@ -223,7 +223,7 @@
 }
 /* Trades orbiting "One team" — continuous, transform/opacity only */
 .orbit {
-  --orbit-size: clamp(13.5rem, 34vw, 21rem);
+  --orbit-size: clamp(12.5rem, 34vw, 21rem);
   --orbit-r: calc(var(--orbit-size) * 0.42);
   position: relative;
   display: grid;

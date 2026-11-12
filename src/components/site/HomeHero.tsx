@@ -12,7 +12,7 @@ export function HomeHero() {
   const step = 360 / h.trades.length;
   return (
     <section aria-labelledby="hero-title" className="hero-anim border-b">
-      <div className="container-site grid items-center gap-10 pt-10 pb-12 md:pt-16 lg:grid-cols-[1.25fr_1fr] lg:gap-12 lg:pb-20">
+      <div className="container-site grid items-center gap-10 pt-6 pb-12 md:pt-16 lg:grid-cols-[1.25fr_1fr] lg:gap-12 lg:pb-20">
         <div className="hero-wrap min-w-0">
           <p className="eyebrow text-accent-ink">{h.eyebrow}</p>
           <h1 id="hero-title" className="hero-title isolate mt-4">
@@ -29,14 +29,14 @@ export function HomeHero() {
               </span>
             </span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{h.subline}</p>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground md:mt-6">{h.subline}</p>
+          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6 md:mt-8">
             <QuoteButton className="w-full sm:w-auto" />
             <WhatsAppLink className="text-accent-ink" />
           </div>
         </div>
 
-        <div aria-hidden="true" className="flex flex-col items-center gap-3 py-2 lg:py-6">
+        <div aria-hidden="true" className="flex flex-col items-center gap-3 pb-2 lg:py-6">
           <div className="orbit">
             <span className="orbit-track" />
             <span className="orbit-spark" />
