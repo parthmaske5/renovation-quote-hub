@@ -2,9 +2,12 @@ import { BUSINESS } from "./site";
 
 export const HOME = {
   hero: {
-    eyebrow: `Home & shop renovation · ${BUSINESS.city}, Malaysia`,
-    headline: "From a leaking tap to a full shop fit-out, one trusted team.",
-    subline: `${BUSINESS.name} handles home repairs, renovations and shop renovations across ${BUSINESS.areaSummary}, with our own skilled team and one point of contact from quote to handover.`,
+    eyebrow: "Home & shop renovation",
+    headlineStrike: { before: "Stop chasing ", struck: "five contractors", after: "." },
+    headlineAnswer: "Call one team.",
+    subline: "Electrical, plumbing, tiling, carpentry and more. One team, one point of contact, from quote to handover.",
+    trades: ["Electrician", "Plumber", "Tiler", "Carpenter", "Painter"],
+    tradesNote: "[confirm in-house trades]",
     sellingPoints: [
       { icon: "ruler", title: "Jobs of every size", body: "One socket or a whole shop lot." },
       { icon: "users", title: "Our own skilled trades", body: "Electrical, plumbing, tiling, carpentry in one team." },
