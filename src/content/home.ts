@@ -3,12 +3,21 @@ import { BUSINESS } from "./site";
 export const HOME = {
   hero: {
     eyebrow: "Home & shop renovation",
-    headlineStrike: { before: "Stop chasing ", struck: "five contractors", after: "." },
-    headlineAnswer: "Call one team.",
+    headline: {
+      leadWords: ["Stop", "chasing"],
+      struck: "five contractors",
+      ending: ".",
+      answer: "Call one team.",
+    },
     subline: "Electrical, plumbing, tiling, carpentry and more. One team, one point of contact, from quote to handover.",
-    trades: ["Electrician", "Plumber", "Tiler", "Carpenter", "Painter"],
-    hubLabel: "One team",
+    trades: ["Electrical", "Plumbing", "Tiling", "Carpentry", "Painting"],
     tradesNote: "[confirm in-house trades]",
+    jobCard: {
+      title: "Your job",
+      contactLabel: "1 point of contact",
+      footer: "One team. One call.",
+      stamp: "Sorted.",
+    },
     sellingPoints: [
       { icon: "ruler", title: "Jobs of every size", body: "One socket or a whole shop lot." },
       { icon: "users", title: "Our own skilled trades", body: "Electrical, plumbing, tiling, carpentry in one team." },

@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { Phone, Ruler, ShieldCheck, Users } from "lucide-react";
 import { HOME } from "@/content/home";
 import { WhatsAppLink } from "./ContactLinks";
@@ -9,64 +8,68 @@ const ICONS = { ruler: Ruler, users: Users, phone: Phone, shield: ShieldCheck } 
 
 export function HomeHero() {
   const h = HOME.hero;
-  const step = 360 / h.trades.length;
   return (
     <section aria-labelledby="hero-title" className="hero-anim border-b">
       <div className="container-site grid items-center gap-10 pt-6 pb-12 md:pt-16 lg:grid-cols-[1.25fr_1fr] lg:gap-12 lg:pb-20">
         <div className="hero-wrap min-w-0">
           <p className="eyebrow text-accent-ink">{h.eyebrow}</p>
           <h1 id="hero-title" className="hero-title isolate mt-4">
-            <span className="hero-mask">
-              <span className="hero-line">
-                {h.headlineStrike.before}
-                <span className="hero-strike">{h.headlineStrike.struck}</span>
-                {h.headlineStrike.after}
+            <span className="hero-mask hero-headline-line">
+              {h.headline.leadWords.map((word, index) => (
+                <span key={word} className="hero-word-mask">
+                  <span className="hero-word" data-word={index}>
+                    {word}
+                  </span>
+                </span>
+              ))}
+              <span className="hero-strike">
+                <span className="hero-word-mask">
+                  <span className="hero-word" data-word={h.headline.leadWords.length}>
+                    {h.headline.struck}
+                  </span>
+                </span>
+              </span>
+              <span className="hero-word-mask hero-punctuation">
+                <span className="hero-word" data-word={h.headline.leadWords.length}>
+                  {h.headline.ending}
+                </span>
               </span>
             </span>
             <span className="hero-mask">
-              <span className="hero-line" style={{ "--d": "var(--hero-answer-delay)" } as CSSProperties}>
-                <span className="hero-answer">{h.headlineAnswer}</span>
-              </span>
+              <span className="hero-word hero-answer">{h.headline.answer}</span>
             </span>
           </h1>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground md:mt-6">{h.subline}</p>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground md:mt-6">
+            {h.subline}
+          </p>
           <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6 md:mt-8">
             <QuoteButton className="w-full sm:w-auto" />
             <WhatsAppLink className="text-accent-ink" />
           </div>
         </div>
 
-        <div aria-hidden="true" className="flex flex-col items-center gap-3 pb-2 lg:py-6">
-          <div className="orbit">
-            <span className="orbit-track" />
-            <span className="orbit-spark" />
-            <div className="orbit-ring">
-              {h.trades.map((t, i) => (
-                <span key={t} className="orbit-arm" style={{ "--a": `${i * step}deg` } as CSSProperties}>
-                  <span className="orbit-item">
-                    <span className="orbit-pill" style={{ "--pd": `${0.55 + i * 0.09}s` } as CSSProperties}>
-                      {t}
-                    </span>
+        <div aria-hidden="true" className="job-card-visual lg:justify-self-end">
+          <div className="job-card">
+            <div className="job-card-header">
+              <span>{h.jobCard.title}</span>
+              <span className="job-card-pill">{h.jobCard.contactLabel}</span>
+            </div>
+            <ul className="job-card-rows">
+              {h.trades.map((trade) => (
+                <li key={trade} className="job-card-row">
+                  <span>{trade}</span>
+                  <span className="job-card-status">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="m4.5 10.25 3.45 3.45 7.55-7.45" />
+                    </svg>
                   </span>
-                </span>
+                </li>
               ))}
-            </div>
-            <div className="orbit-hub">
-              <svg
-                viewBox="0 0 24 24"
-                className="size-7"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12.5l4.5 4.5L19 7.5" />
-              </svg>
-              <span>{h.hubLabel}</span>
-            </div>
+            </ul>
+            <p className="job-card-footer">{h.jobCard.footer}</p>
+            <span className="job-card-stamp">{h.jobCard.stamp}</span>
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="job-card-note">
             <Txt>{h.tradesNote}</Txt>
           </p>
         </div>

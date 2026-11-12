@@ -198,138 +198,354 @@
   }
 }
 
-/* Home hero: pure-CSS animation — one-shot headline reveal + a looping "trades orbit" */
+/* Home hero: one-shot, compositor-friendly text and job-card sequence. */
 .hero-anim {
-  --hero-rise: 0.55s;
-  --hero-strike-delay: 0.6s;
-  --hero-answer-delay: 1.3s;
-  --hero-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --orbit-period: 16s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-text: 500ms;
+  --stagger: 90ms;
+  --dur-card: 500ms;
+  --row-stagger: 250ms;
+  --footer-delay: calc(
+    var(--dur-card) + var(--row-stagger) + var(--row-stagger) + var(--row-stagger) +
+      var(--row-stagger) + 320ms
+  );
+  --stamp-delay: calc(var(--footer-delay) + 260ms);
+  --strike-delay: 680ms;
+  --answer-delay: 1.13s;
+  --amber: #d97706;
+  --job-ink: #1c1917;
+  --job-muted: #78716c;
+  --job-line: #e7e5e4;
 }
-.hero-wrap { container-type: inline-size; }
-.hero-title { font-size: clamp(2.5rem, min(8.5vw, 10.5cqi), 6.25rem); font-weight: 800; line-height: 0.98; letter-spacing: -0.03em; }
-.hero-mask { display: block; overflow: hidden; padding-bottom: 0.08em; }
-.hero-line { display: block; animation: hero-rise var(--hero-rise) var(--hero-ease) both; animation-delay: var(--d, 0s); }
-.hero-strike { position: relative; white-space: nowrap; }
-.hero-strike::after {
-  content: ""; position: absolute; left: -0.03em; right: -0.03em; top: 54%; height: 0.09em;
-  background: var(--accent-ink); border-radius: 999px; transform-origin: left;
-  animation: hero-scale-x 0.45s var(--hero-ease) var(--hero-strike-delay) both;
+.hero-wrap {
+  container-type: inline-size;
 }
-.hero-answer { position: relative; display: inline-block; white-space: nowrap; padding: 0 0.18em; color: var(--primary-foreground); }
-.hero-answer::before {
-  content: ""; position: absolute; inset: 0.04em 0 0.02em; background: var(--primary); border-radius: 0.08em; z-index: -1;
-  transform-origin: left; animation: hero-scale-x 0.5s var(--hero-ease) calc(var(--hero-answer-delay) + 0.1s) both;
+.hero-title {
+  font-size: clamp(2.5rem, min(8.5vw, 10.5cqi), 6.25rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
 }
-/* Trades orbiting "One team" — continuous, transform/opacity only */
-.orbit {
-  --orbit-size: clamp(12.5rem, 34vw, 21rem);
-  --orbit-r: calc(var(--orbit-size) * 0.42);
+.hero-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.hero-headline-line {
+  white-space: normal;
+}
+.hero-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.hero-word {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: hero-rise var(--dur-text) var(--ease-out) var(--word-delay, 0ms) both;
+}
+.hero-word[data-word="1"] {
+  --word-delay: var(--stagger);
+}
+.hero-word[data-word="2"] {
+  --word-delay: calc(var(--stagger) + var(--stagger));
+}
+.hero-headline-line > .hero-word-mask:not(.hero-punctuation),
+.hero-strike {
+  margin-right: 0.19em;
+}
+.hero-strike {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: var(--orbit-size);
-  height: var(--orbit-size);
+  display: inline-block;
+  white-space: nowrap;
 }
-.orbit-track {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(var(--orbit-r) * 2);
-  height: calc(var(--orbit-r) * 2);
-  margin-left: calc(var(--orbit-r) * -1);
-  margin-top: calc(var(--orbit-r) * -1);
-  border-radius: 9999px;
-  border: 1px dashed var(--color-input);
-  animation: orbit-spin calc(var(--orbit-period) * 1.5) linear infinite reverse;
-}
-.orbit-spark {
-  position: absolute;
-  inset: 0;
-  animation: orbit-spin 6.5s linear infinite;
-}
-.orbit-spark::after {
+.hero-strike::after {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0.45rem;
-  height: 0.45rem;
-  margin-left: -0.225rem;
-  margin-top: calc(var(--orbit-r) * -1);
-  border-radius: 9999px;
-  background: var(--color-primary);
+  left: -0.03em;
+  right: -0.03em;
+  top: 54%;
+  height: 0.09em;
+  background: var(--accent-ink);
+  border-radius: 999px;
+  transform-origin: left;
+  animation: hero-scale-x 450ms var(--ease-out) var(--strike-delay) both;
 }
-.orbit-ring {
-  position: absolute;
-  inset: 0;
-  animation: orbit-spin var(--orbit-period) linear infinite;
-  will-change: transform;
-}
-.orbit-arm {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  transform: rotate(var(--a)) translateY(calc(var(--orbit-r) * -1)) rotate(calc(var(--a) * -1));
-}
-.orbit-item {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translate(-50%, -50%);
-}
-.orbit-pill {
-  display: inline-block;
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--color-border);
-  border-radius: 9999px;
-  background: var(--color-card);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
-  font-size: 0.8rem;
-  font-weight: 600;
+.hero-answer {
+  position: relative;
+  z-index: 0;
   white-space: nowrap;
-  animation:
-    hero-fade 0.4s ease-out var(--pd, 0s) both,
-    orbit-upright var(--orbit-period) linear infinite;
-  will-change: transform;
+  padding: 0 0.18em;
+  color: var(--primary-foreground);
+  animation-delay: var(--answer-delay);
 }
-.orbit-hub {
+.hero-answer::before {
+  content: "";
+  position: absolute;
+  inset: 0.04em 0 0.02em;
+  background: var(--primary);
+  border-radius: 0.08em;
+  z-index: -1;
+  transform-origin: left;
+  animation: hero-scale-x 500ms var(--ease-out) var(--answer-delay) both;
+}
+
+/* Decorative job card — white and charcoal in either colour scheme. */
+.job-card-visual {
+  position: relative;
+  width: min(100%, 28rem);
+  min-height: 29rem;
+  padding: 0 1.25rem 2.35rem 0.25rem;
+  color: var(--job-ink);
+}
+.job-card {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  border: 2px solid var(--job-ink);
+  border-radius: 24px;
+  background: #fff;
+  color: var(--job-ink);
+  opacity: 0;
+  transform: translateY(40px);
+  animation: job-card-in var(--dur-card) var(--ease-out) both;
+  will-change: transform, opacity;
+}
+.job-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.15rem 1.2rem 1rem;
+  color: var(--job-muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.job-card-pill {
+  flex: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  background: #fef3c7;
+  color: var(--job-ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.job-card-rows {
+  margin: 0;
+  padding: 0 1.2rem;
+  list-style: none;
+}
+.job-card-row {
+  display: flex;
+  min-height: 3.48rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--job-line);
+  font-size: 1rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: job-row-in 330ms var(--ease-out) var(--row-delay) both;
+  will-change: transform, opacity;
+}
+.job-card-row:nth-child(1) {
+  --row-delay: var(--dur-card);
+}
+.job-card-row:nth-child(2) {
+  --row-delay: calc(var(--dur-card) + var(--row-stagger));
+}
+.job-card-row:nth-child(3) {
+  --row-delay: calc(var(--dur-card) + var(--row-stagger) + var(--row-stagger));
+}
+.job-card-row:nth-child(4) {
+  --row-delay: calc(var(--dur-card) + var(--row-stagger) + var(--row-stagger) + var(--row-stagger));
+}
+.job-card-row:nth-child(5) {
+  --row-delay: calc(
+    var(--dur-card) + var(--row-stagger) + var(--row-stagger) + var(--row-stagger) +
+      var(--row-stagger)
+  );
+}
+.job-card-status {
+  position: relative;
+  display: grid;
+  width: 1.4rem;
+  height: 1.4rem;
+  flex: none;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1.5px solid var(--job-ink);
+  background: #fff;
+}
+/* The amber fill scales in; colour itself never animates. */
+.job-card-status::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 9999px;
+  background: var(--amber);
+  transform: scale(0);
+  animation: job-status-fill 200ms var(--ease-out) calc(var(--row-delay) + 200ms) both;
+  will-change: transform, opacity;
+}
+.job-card-status svg {
   position: relative;
   z-index: 1;
-  display: grid;
-  place-items: center;
-  gap: 0.1rem;
-  width: 40%;
-  aspect-ratio: 1;
-  padding: 0.5rem;
-  border-radius: 9999px;
-  background: var(--color-primary);
-  color: var(--color-primary-foreground);
-  text-align: center;
-  animation: hero-pop 0.35s var(--hero-ease) calc(var(--hero-answer-delay) + 0.1s) both;
+  width: 0.95rem;
+  height: 0.95rem;
 }
-.orbit-hub span {
-  font-size: 0.8rem;
+.job-card-status path {
+  stroke: var(--job-ink);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 18;
+  stroke-dashoffset: 18;
+  opacity: 0;
+  animation: job-tick-draw 200ms ease-out calc(var(--row-delay) + 200ms) both;
+}
+.job-card-footer {
+  margin: 0;
+  border-top: 1px solid var(--job-line);
+  padding: 1.1rem 1.2rem 1.2rem;
+  font-size: 1.08rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: job-row-in 330ms var(--ease-out) var(--footer-delay) both;
+  will-change: transform, opacity;
 }
-.orbit-hub::after {
+.job-card-stamp {
+  position: absolute;
+  right: -1.05rem;
+  bottom: -1.65rem;
+  display: grid;
+  width: 5.55rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 2px solid var(--job-ink);
+  border-radius: 9999px;
+  background: var(--amber);
+  color: var(--job-ink);
+  font-size: 0.94rem;
+  font-weight: 800;
+  transform: rotate(-14deg) scale(1.4);
+  opacity: 0;
+  animation: job-stamp-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--stamp-delay) both;
+  will-change: transform, opacity;
+}
+.job-card-stamp::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  border: 2px solid var(--color-primary);
-  animation: orbit-pulse 2.8s ease-out infinite;
+  inset: 0.38rem;
+  border: 1px solid var(--job-ink);
+  border-radius: inherit;
 }
-@keyframes orbit-pulse { from { transform: scale(1); opacity: 0.4; } to { transform: scale(1.6); opacity: 0; } }
-@keyframes hero-rise { from { transform: translateY(105%); } to { transform: none; } }
-@keyframes hero-scale-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes hero-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
-@keyframes orbit-spin { to { transform: rotate(360deg); } }
-@keyframes orbit-upright { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+.job-card-note {
+  margin: 0.8rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+@keyframes hero-rise {
+  from {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes hero-scale-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes job-card-in {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes job-row-in {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes job-status-fill {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes job-tick-draw {
+  from {
+    stroke-dashoffset: 18;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes job-stamp-in {
+  from {
+    transform: rotate(-14deg) scale(1.4);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(-6deg) scale(1);
+    opacity: 1;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .hero-anim *, .hero-anim *::before, .hero-anim *::after { animation: none !important; }
+  .hero-anim *,
+  .hero-anim *::before,
+  .hero-anim *::after {
+    animation: none !important;
+  }
+  .hero-word,
+  .job-card,
+  .job-card-row,
+  .job-card-footer {
+    opacity: 1;
+    transform: none;
+  }
+  .job-card-status::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .job-card-status path {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  .job-card-stamp {
+    opacity: 1;
+    transform: rotate(-6deg) scale(1);
+  }
+}
+
+@media (width < 48rem) {
+  .job-card-visual {
+    margin-inline: auto;
+  }
 }
